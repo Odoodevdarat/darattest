@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="crm_duplicate_criteria_view_form" model="ir.ui.view">
+        <field name="name">crm.duplicate.criteria.form</field>
+        <field name="model">crm.duplicate.criteria</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="res_model" invisible="not res_model"/>
+                        <field name="duplicate_field_ids" widget="many2many_tags" options="{'no_create_edit': 1, 'no_quick_create': 1}" class="w-100"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

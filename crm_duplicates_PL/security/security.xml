@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_crm_duplicates_show_soft" model="res.groups">
+        <field name="name">Nie wyświetlaj liczby duplikatów w Soft CRM (widok formularza)</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    <record id="group_crm_duplicates_show_soft_list" model="res.groups">
+        <field name="name">Nie wyświetlaj liczby duplikatów w CRM (widok drzewa i kanban)</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+</odoo>

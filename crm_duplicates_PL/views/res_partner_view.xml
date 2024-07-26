@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="res_partner_view_form" model="ir.ui.view">
+        <field name="name">res.partner.form.duplicates</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_open_duplicates"
+                        type="object"
+                        class="oe_stat_button text-danger"
+                        icon="fa-file-text"
+                        invisible="not duplicates_count"
+                        groups="!crm_duplicates.group_crm_duplicates_show_soft"
+                >
+                    <field nolabel="1" name="duplicates_count" class="text-danger mr4"/>
+                    Duplicates
+                </button>
+            </div>
+        </field>
+    </record>
+    <record id="res_partner_view_tree" model="ir.ui.view">
+        <field name="name">res.partner.tree.duplicates</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list" optional="show"/>
+            </field>
+        </field>
+    </record>
+    <record id="res_partner_view_search" model="ir.ui.view">
+        <field name="name">res.partner.search.duplicates</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="type_person" position="before">
+                <filter name="potential_dupplicates" string="Potencjalnych duplikatów" domain="[('duplicates_count', '!=', 0)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+    <record id="res_partner_view_kanban" model="ir.ui.view">
+        <field name="name">res.partner.kanban.duplicates</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list"/>
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div groups="!crm_duplicates.group_crm_duplicates_show_soft_list">
+                    <a t-if="record.duplicates_count.raw_value != 0" name="action_open_duplicates" style="margin-right: 10px" type="object">
+                        <field name="duplicates_count"/> Potencjalnych duplikatów
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

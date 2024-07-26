@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Opportunities -->
+    <record id="crm_lead_view_form_opportunity" model="ir.ui.view">
+        <field name="name">crm.lead.form.opportunity.duplicates</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position='inside'>
+                <button name="action_open_duplicates"
+                        type="object"
+                        class="oe_stat_button text-danger"
+                        icon="fa-file-text"
+                        invisible="not duplicates_count"
+                        groups="!crm_duplicates.group_crm_duplicates_show_soft"
+                >
+                    <field nolabel="1" name="duplicates_count" class="text-danger mr4"/>
+                    Duplicates
+                </button>
+            </div>
+        </field>
+    </record>
+    <record id="crm_lead_view_tree_opportunity" model="ir.ui.view">
+        <field name="name">crm.lead.tree.opportunity.duplicates</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <field name="stage_id" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list" optional="show"/>
+            </field>
+        </field>
+    </record>
+    <record id="crm_lead_view_kanban_opportunity" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.opportunity.duplicates</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list"/>
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div groups="!crm_duplicates.group_crm_duplicates_show_soft_list">
+                    <a t-if="record.duplicates_count.raw_value != 0" name="action_open_duplicates" style="margin-right: 10px" type="object">
+                        <field name="duplicates_count"/> Potencjalnych duplikatów
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="crm_lead_view_search_opportunity" model="ir.ui.view">
+        <field name="name">crm.lead.search.opporunity.duplicates</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <filter name="won" position="before">
+                <filter name="potential_dupplicates" string="Potencjalnych duplikatów" domain="[('duplicates_count', '!=', 0)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+    <!-- Leads -->
+    <record id="crm_lead_view_tree_lead" model="ir.ui.view" >
+        <field name="name">Leads</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <field name="message_needaction" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list" optional="show"/>
+            </field>
+        </field>
+    </record>
+    <record id="crm_lead_view_lead_kanban" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.duplicate</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_lead_kanban"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="duplicates_count" groups="!crm_duplicates.group_crm_duplicates_show_soft_list"/>
+            </field>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="before">
+                <div groups="!crm_duplicates.group_crm_duplicates_show_soft_list">
+                    <a t-if="record.duplicates_count.raw_value != 0" name="action_open_duplicates" style="margin-right: 10px" type="object">
+                        <field name="duplicates_count"/> Potencjalnych duplikatów
+                    </a>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="crm_lead_view_search_lead" model="ir.ui.view">
+        <field name="name">crm.lead.search.lead.duplicates</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <filter name="lost" position="before">
+                <filter name="potential_dupplicates" string="Potencjalnych duplikatów" domain="[('duplicates_count', '!=', 0)]"/>
+                <separator/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>
